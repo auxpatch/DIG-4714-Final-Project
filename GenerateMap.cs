@@ -41,13 +41,20 @@ public class GenerateMap : MonoBehaviour
                 GameObject tiles = GameObject.CreatePrimitive(PrimitiveType.Plane);
                 tiles.transform.rotation = target;
                 tiles.transform.position = new Vector3(i*10, j*10, 0);
+
+                if (levelType == "space") //loop through 
+                {
+                    //assign material to plane;
+                    tiles.GetComponent<Renderer>().material = space1;
+
+                }
+                else if (levelType == "deepspace")
+                {
+                    tiles.GetComponent<Renderer>().material = space2;
+                }
             }
         }
 
-        if (levelType == "space") //loop through 
-        {
-            //assign material to plane
-        }
     }
 
     void SpawnObstacles(string obstacleDensity, int tileAmount)
