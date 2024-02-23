@@ -13,14 +13,20 @@ public class GenerateMap : MonoBehaviour
     private int tileAmount;
     public GameObject asteroidObstacle;
     private GameObject[] tiles;
+    public Material[] space;
+
+    public Dictionary<string, Material> spaceMat = new Dictionary<string, Material>();//contains materials for diffrent level types
 
     // Start is called before the first frame update
     void Start()
     {
+        spaceMat.Add("outerspace", space[0]);
+        spaceMat.Add("deepspace", space[1]); //add leveltypes here?
+
         levelX = 5; //size of map on X-axis
         levelY = 5; //size of map on Y-axis
         obstacleDensity = "low"; //options off, low, medium, high
-        levelType = "space";
+        levelType = "deepspace";
         BuildBackground(levelType, levelX, levelY);
     }
 
@@ -41,17 +47,8 @@ public class GenerateMap : MonoBehaviour
                 GameObject tiles = GameObject.CreatePrimitive(PrimitiveType.Plane);
                 tiles.transform.rotation = target;
                 tiles.transform.position = new Vector3(i*10, j*10, 0);
-
-                if (levelType == "space") //loop through 
-                {
-                    //assign material to plane;
-                    tiles.GetComponent<Renderer>().material = space1;
-
-                }
-                else if (levelType == "deepspace")
-                {
-                    tiles.GetComponent<Renderer>().material = space2;
-                }
+                tiles.GetComponent<Renderer>().material = spaceMat[levelType];
+                
             }
         }
 
