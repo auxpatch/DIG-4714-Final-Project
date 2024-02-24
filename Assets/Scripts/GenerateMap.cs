@@ -14,12 +14,17 @@ public class GenerateMap : MonoBehaviour
     public GameObject[] obstacles;
     public GameObject asteroid;
     private GameObject[] tiles;
+    private Transform parentTile;
+    private Transform parentObstacle;
     public Material[] space;
 
     public Dictionary<string, Material> spaceMat = new Dictionary<string, Material>();  //contains materials for diffrent level types
 
     void Start()
     {
+        parentTile = new GameObject("Tiles").transform; // Create empty parent GameObject for tiles
+        parentObstacle = new GameObject("Obstacles").transform; // Create empty parent GameObject for obstacles
+
         spaceMat.Add("outerspace", space[0]);
         spaceMat.Add("deepspace", space[1]);
 
@@ -27,15 +32,15 @@ public class GenerateMap : MonoBehaviour
         levelY = 5; //size of map on Y-axis
         tileAmount = levelX * levelY;
 
-        obstacleDensity = "high"; //options: off, low, medium, high
+        obstacleDensity = "medium"; //options: off, low, medium, high
 
         levelType = "deepspace";
 
-        BuildBackground(levelType, levelX, levelY);
-        SpawnObstacles(obstacleDensity, tileAmount, levelX, levelY);
+        BuildBackground(levelType, levelX, levelY, parentTile);
+        SpawnObstacles(obstacleDensity, tileAmount, levelX, levelY, parentObstacle);
     }
 
-    void BuildBackground(string levelType, int levelX, int levelY)
+    void BuildBackground(string levelType, int levelX, int levelY, Transform parent)
     {
         Quaternion target = Quaternion.Euler(-90, 0, 0);
 
@@ -47,12 +52,13 @@ public class GenerateMap : MonoBehaviour
                 tiles.transform.rotation = target;
                 tiles.transform.position = new Vector3(i*10, j*10, 0);
                 tiles.GetComponent<Renderer>().material = spaceMat[levelType];
+                tiles.transform.SetParent(parent, false);
             }
         }
 
     }
 
-    void SpawnObstacles(string obstacleDensity, int tileAmount, int levelX, int levelY)
+    void SpawnObstacles(string obstacleDensity, int tileAmount, int levelX, int levelY, Transform parent)
     //To make function more modular for different types of obstacles the "asteroid" prefab at start of instantiate would get
     //switched to take an input of prefab type maybe from a dictionary like how materials are done.
     //Repetition of code in switch case should also get switched to a function probably. just did it like this for testing
@@ -71,6 +77,7 @@ public class GenerateMap : MonoBehaviour
                 for(int i = 0; i < obstacleAmount; i++)
                 {
                     obstacles[i] = Instantiate(asteroid, new Vector3(Random.Range(-5, (levelX-1)*10),Random.Range(-5, (levelY-1)*10),0), Quaternion.identity); //-5 is used for the lower bounds of random since that's the edge of where tiles are generated
+                    obstacles[i].transform.SetParent(parent, false);
                 }
 
                 Debug.Log("in low");
@@ -82,6 +89,7 @@ public class GenerateMap : MonoBehaviour
                 for(int i = 0; i < obstacleAmount; i++)
                 {
                     obstacles[i] = Instantiate(asteroid, new Vector3(Random.Range(-5, (levelX-1)*10),Random.Range(-5, (levelY-1)*10),0), Quaternion.identity);
+                    obstacles[i].transform.SetParent(parent, false);
                 }
                 Debug.Log("in medium");
                 break;
@@ -92,6 +100,7 @@ public class GenerateMap : MonoBehaviour
                 for(int i = 0; i < obstacleAmount; i++)
                 {
                     obstacles[i] = Instantiate(asteroid, new Vector3(Random.Range(-5, (levelX-1)*10),Random.Range(-5, (levelY-1)*10),0), Quaternion.identity);
+                    obstacles[i].transform.SetParent(parent, false);
                 }
                 Debug.Log("in high");
                 break;
