@@ -16,7 +16,7 @@ public class PlayerBehavior : MonoBehaviour
     void Update()
     {
         LookAtMouse();
-        
+        PlayerMovement();
     }
 
     void LookAtMouse()
@@ -27,5 +27,32 @@ public class PlayerBehavior : MonoBehaviour
         Vector3 direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y);
 
         transform.up = direction;
+    }
+
+    void PlayerMovement()
+    {
+        Vector3 pos = transform.position;
+
+        if (Input.GetKey("w"))
+        {
+            pos.y += MoveSpeed * Time.deltaTime;
+        }
+
+        if (Input.GetKey("s"))
+        {
+            pos.y -= MoveSpeed * Time.deltaTime;
+        }
+
+        if (Input.GetKey("d"))
+        {
+            pos.x += MoveSpeed * Time.deltaTime;
+        }
+
+        if (Input.GetKey("a"))
+        {
+            pos.x -= MoveSpeed * Time.deltaTime;
+        }
+
+        transform.position = pos;
     }
 }
