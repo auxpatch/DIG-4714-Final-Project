@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerBehavior : MonoBehaviour
 {
     public float MoveSpeed = 8f;
-    
+    public int health;
+    public Slider healthBar;
 
     void Start()
     {
-        
+        health = 50;
     }
 
     // Update is called once per frame
@@ -17,6 +20,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         LookAtMouse();
         PlayerMovement();
+        UpdateHealth();
     }
 
     void LookAtMouse()
@@ -54,5 +58,10 @@ public class PlayerBehavior : MonoBehaviour
         }
 
         transform.position = pos;
+    }
+
+    void UpdateHealth()
+    {
+        healthBar.value = health;
     }
 }
