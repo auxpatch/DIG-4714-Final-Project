@@ -6,8 +6,46 @@ public class NewBehaviourScript : MonoBehaviour
 {
     public GameObject player;
     public float speed;
-
     private float distance;
+    public string HPType;
+    public string SpeedType;
+    public AttackType attackType;
+    public MovementType movementType;
+
+    public enum AttackType //type of attack
+    {
+        Melee,
+        Range,
+        Polluter,
+        Area
+    }
+
+    public enum MovementType //type of movement
+    {
+        Direct,
+        Avoider,
+        Rotator,
+        Migrater
+    }
+
+    Dictionary<string, int> enemyHP = new Dictionary<string, int>() //hp dict
+    {
+        {"Boss", 100 },
+        {"Heavy", 50 },
+        {"Medium", 25 },
+        {"light", 10 }
+    };
+
+    Dictionary<string, float> enemySpeed = new Dictionary<string, float>() //speed dict
+    {
+        {"Shambler", 5 },
+        {"Rusher", 10 },
+        {"Basic", 7 }
+    };
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {
