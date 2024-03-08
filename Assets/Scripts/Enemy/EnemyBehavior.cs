@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    public GameObject player;
-    public float speed;
+    private Transform target;
     private float distance;
+    [SerializeField] private float speed;
+    [SerializeField] private float hp;
     public string HPType;
     public string SpeedType;
     public AttackType attackType;
@@ -49,23 +50,25 @@ public class NewBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        hp = enemyHP[HPType];
+        speed = enemySpeed[SpeedType];
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        enemyMovementBasic();
     }
 
     void enemyMovementBasic()
     {
-        distance = Vector2.Distance(transform.position, player.transform.position);
-        Vector2 direction = player.transform.position - transform.position;
+        distance = Vector2.Distance(transform.position, target.position);
+        Vector2 direction = target.position - transform.position;
         direction.Normalize();
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(this.transform.position, target.position, speed * Time.deltaTime);
         transform.rotation = Quaternion.Euler(Vector3.forward * angle);
 
     }
