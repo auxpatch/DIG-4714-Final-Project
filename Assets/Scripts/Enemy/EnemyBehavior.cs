@@ -6,12 +6,15 @@ public class NewBehaviourScript : MonoBehaviour
 {
     private Transform target;
     private float distance;
+
     [SerializeField] private float speed;
     [SerializeField] private float hp;
     public string HPType;
     public string SpeedType;
+
     public AttackType attackType;
     public MovementType movementType;
+
 
     public enum AttackType //type of attack
     {
@@ -58,18 +61,43 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        enemyMovementBasic();
+        enemyMovement(movementType);
     }
 
-    void enemyMovementBasic()
+    void enemyMovement(MovementType type)
     {
-        distance = Vector2.Distance(transform.position, target.position);
-        Vector2 direction = target.position - transform.position;
-        direction.Normalize();
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        if (type == MovementType.Direct) //tracks player movement and follows (slow, direct)
+        {
+            distance = Vector2.Distance(transform.position, target.position);
+            Vector2 direction = target.position - transform.position;
+            direction.Normalize();
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        transform.position = Vector2.MoveTowards(this.transform.position, target.position, speed * Time.deltaTime);
-        transform.rotation = Quaternion.Euler(Vector3.forward * angle);
+            transform.position = Vector2.MoveTowards(this.transform.position, target.position, (speed / 3) * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(Vector3.forward * angle);
+        }
 
+        else if (type == MovementType.Avoider) //tracks player movement and avoids (slow-ish)
+        {
+            distance = Vector2.Distance(transform.position, target.position);
+            Vector2 direction = target.position - transform.position;
+            direction.Normalize();
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            transform.position = Vector2.MoveTowards(this.transform.position, target.position, -1 * (speed / 2) * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(Vector3.forward * angle);
+        }
+
+        else if (type == MovementType.Rotator) //tracks player movement and rotates around player while closing in (rotate semi-fast, close in slow)
+        {
+
+        }
+
+        else if (type == MovementType.Migrater) // ? not sure yet
+        {
+
+        }
     }
+
+
 }
