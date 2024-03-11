@@ -520,11 +520,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bb22ad9ae3628941ac2453e72b570ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
   hp: 0
   HPType: Medium
   SpeedType: Shambler
   attackType: 0
-  movementType: 0
+  movementType: 1
 --- !u!212 &663914020
 SpriteRenderer:
   m_ObjectHideFlags: 0

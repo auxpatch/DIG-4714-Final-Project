@@ -27,6 +27,7 @@ public class NewBehaviourScript : MonoBehaviour
     public enum MovementType //type of movement
     {
         Direct,
+        Rusher,
         Avoider,
         Rotator,
         Migrater
@@ -74,6 +75,17 @@ public class NewBehaviourScript : MonoBehaviour
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
             transform.position = Vector2.MoveTowards(this.transform.position, target.position, (speed / 3) * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(Vector3.forward * angle);
+        }
+
+        else if (type == MovementType.Rusher) // tracks player movement and follows (fast, direct)
+        {
+            distance = Vector2.Distance(transform.position, target.position);
+            Vector2 direction = target.position - transform.position;
+            direction.Normalize();
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            transform.position = Vector2.MoveTowards(this.transform.position, target.position, (speed + 2) * Time.deltaTime);
             transform.rotation = Quaternion.Euler(Vector3.forward * angle);
         }
 
