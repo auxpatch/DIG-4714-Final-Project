@@ -105,7 +105,7 @@ public class NewBehaviourScript : MonoBehaviour
 
         }
 
-        else if (type == MovementType.Migrater) // ? not sure yet
+        else if (type == MovementType.Migrater) // moves from one end of the screen to the other
         {
 
         }
